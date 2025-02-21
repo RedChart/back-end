@@ -53,6 +53,14 @@ spring:
           filters:
             - RewritePath=/api/posts/(?<path>.*), /$\{path}
 
+        - id: newsfeed-service
+          uri: lb://newsfeed-service
+          predicates:
+            - Path=/api/newsfeed/v3/api-docs/**, /api/newsfeed/swagger-ui/**
+            - Method=GET
+          filters:
+            - RewritePath=/api/newsfeed/(?<path>.*), /$\{path}
+
         - id: stock-service
           uri: lb://stock-service
           predicates:
@@ -82,13 +90,15 @@ springdoc:
     urls[1]:
       name: 포스팅 서비스
       url: http://localhost:8083/api/posts/v3/api-docs
+    urls[2]:
+      name: 뉴스피드 서비스
+      url: http://localhost:8084/api/newsfeed/v3/api-docs
     use-root-path: true
-#    urls[2]:
-#      name: 랭크 서비스
-#      url: http://게이트웨이 주소/api/rank/v3/api-docs
 
     urls:
       - name: user-service
         url: /api/users/v3/api-docs
       - name: post-service
         url: /api/posts/v3/api-docs
+      - name: newsfeed-service
+        url: /api/newsfeed/v3/api-docs

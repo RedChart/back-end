@@ -5,15 +5,17 @@ spring:
     name: post-service
 
   datasource:
-    #    url: jdbc:mysql://localhost:3306/redchart_post_service
-    url: jdbc:mysql://post-service-mysql:3306/post-service-mysql
+    url: jdbc:mysql://localhost:3308/redchart_post_service
+#    url: jdbc:mysql://post-service-mysql:3306/post-service-mysql
     username: ${SPRING_DATASOURCE_USERNAME:root}
     password: ${DB_PASSWORD:1234}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: create
-
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
   kafka:
     #    bootstrap-servers: localhost:9092  # Kafka 브로커 주소
     #    consumer:
@@ -37,6 +39,8 @@ spring:
   cloud:
     compatibility-verifier:
       enabled: false
+  main:
+    allow-bean-definition-overriding: true
 eureka:
   client:
     service-url:
