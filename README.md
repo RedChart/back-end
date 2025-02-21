@@ -96,8 +96,7 @@
 - 각 서비스의 독립성을 보장하고, 확장성을 극대화하기 위해 MSA를 도입
 - Spring Cloud와 Netflix Eureka를 사용하여 서비스 디스커버리와 로드 밸런싱을 구현
 - API Gateway 서비스에서 JWT 기반 인증 및 보안 모듈을 설정
-- 각 마이크로서비스 간의 통신은 Feign Client를 사용하여 REST API 기반으로 비동기 처리하였으며, 서비스 간의 높은 응답 시간을 해결하기 위해 병렬 처리(CompletableFuture)를
-  활용
+- 각 마이크로서비스 간의 통신은 Feign Client를 사용하여 REST API 기반으로 비동기 처리하였으며, 서비스 간의 높은 응답 시간을 해결하기 위해 병렬 처리(CompletableFuture)를 활용
 
 ## 트러블 슈팅 및 성능 개선
 
@@ -113,14 +112,22 @@
 - 블로킹 방식
 - 단순성
 
+<<<<<<< Updated upstream
 
 - 아키텍처 구상
+=======
+- 뉴스 피드 성능 개선
+>>>>>>> Stashed changes
     - 뉴스피드 속도 문제
     - fegin client의 동기 처리의 속도 문제
     - non-blocking 처리 시 에러 처리 롤백 문제 인지
     - 동기 처리를 병렬적으로 처리(computable future)
     - 서비스의 독립성을 위해 포스트 서비스 및 뉴스피드를 분리하고
+<<<<<<< Updated upstream
     - 뉴스피드에 redis 중간 테이블을 두어 각 유저의 뉴스피드 post id정보를 저장
+=======
+    - 뉴스피드에 redis 중간 테이블을 두어 각 유저의 뉴스피드 post id 정보를 저장
+>>>>>>> Stashed changes
 
 - 인덱싱 문제
     - 순환, 해시, 테이블 분리X
