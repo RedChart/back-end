@@ -40,15 +40,22 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.signUp(signUpDto));
     }
 
-    @Operation(summary = "로그인", description = "로그인후, access/refresh Token 발행")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK")
-    })
-    @PostMapping("/signin")
-    public ResponseEntity<TokenDto> signIn(@RequestBody SignInRequestDto signInRequestDto, HttpServletResponse response) throws Exception {
-        return ResponseEntity.ok(userService.signIn(signInRequestDto, response));
-    }
-
+//    @Operation(summary = "로그인", description = "로그인후, access/refresh Token 발행")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "OK")
+//    })
+//    @PostMapping("/signin")
+//    public ResponseEntity<TokenDto> signIn(@RequestBody SignInRequestDto signInRequestDto, HttpServletResponse response) throws Exception {
+//        return ResponseEntity.ok(userService.signIn(signInRequestDto, response));
+//    }
+@Operation(summary = "로그인", description = "로그인후, access/refresh Token 발행")
+@ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "OK")
+})
+@PostMapping("/signin")
+public ResponseEntity<String> signIn(@RequestBody SignInRequestDto signInRequestDto, HttpServletResponse response) throws Exception {
+    return ResponseEntity.ok(userService.signIn(signInRequestDto, response).getAccessToken());
+}
     @Operation(summary = "이메일 인증 요청", description = "이메일 인증 코드 발송")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK")

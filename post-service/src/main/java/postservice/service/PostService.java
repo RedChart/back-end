@@ -6,6 +6,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import postservice.domain.Comment;
 import postservice.domain.Post;
+import postservice.feign.dto.PostCreateDateAndIdListDto;
 import postservice.feign.dto.PostIdListDto;
 import postservice.feign.dto.ServerUserDto;
 import postservice.feign.UserServiceClientForPostService;
@@ -44,7 +45,7 @@ public class PostService {
     public void createpost(RequestPostDto request, Long userId) {
         Post post = request.toEntity(userId);
         postRepository.save(post);
-        kafkaTemplate.send("post-event", new PostEventDto("CREATED", post.getId(), post.getCreateDate(), post.getWriterId()));
+        kafkaTemplate.send("post-event", new PostEventDto("CREATED", post.getCreateDateAndId(), post.getWriterId()));
     }
     public void updatepost(RequestPostDto request, Long postId,Long userId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new RuntimeException("Post not found with id: " + postId));
@@ -86,7 +87,7 @@ public class PostService {
     public void deletepost(Long postId, Long userId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new RuntimeException("Post not found with id: " + postId));
         if (post.getId() != null && post.getWriterId().equals(userId)){
-            kafkaTemplate.send("post-event", new PostEventDto("DELETED",postId, post.getCreateDate(), post.getWriterId()));
+            kafkaTemplate.send("post-event", new PostEventDto("DELETED",post.getCreateDateAndId(), post.getWriterId()));
             postRepository.deleteById(postId);
         }
         else {
@@ -105,14 +106,14 @@ public class PostService {
         //return으로 dto를 보냄
     }
 
-    public PostIdListDto getPostsById(Long userId) {
+    public PostCreateDateAndIdListDto getPostCreateDateAndIdListById(Long userId) {
         //해당 유저의 최근 7일 posts를 가져옴
         LocalDateTime sevenDaysAgo = LocalDateTime.now().minusDays(7);
-        List<String> postIds = postRepository.findByCreateDateAfterAndWriterId(sevenDaysAgo, userId)
+        List<String> postCreateDateAndIdList = postRepository.findByCreateDateAfterAndWriterId(sevenDaysAgo, userId)
                 .stream()
-                .map(post -> String.valueOf(post.getId()))
+                .map(post -> String.valueOf(post.getCreateDateAndId()))
                 .collect(Collectors.toList());
-        return new PostIdListDto(postIds);
+        return new PostCreateDateAndIdListDto(postCreateDateAndIdList);
     }
 //
 //    public ServerPostDto getCreateDateAndIdById(Long userId) {

@@ -7,8 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import userservice.feign.PostCreateDateAndIdListDto;
 import userservice.kafka.PostIdListOfUserDto;
-import userservice.feign.dto.PostIdListDto;
 import userservice.domain.Follow;
 import userservice.domain.User;
 import userservice.dto.follow.CountFollowDto;
@@ -41,11 +41,12 @@ public class FollowService {
             followRepository.save(follow);
 
             // redis db에서 post id를 추가
-            // 1. followeeId의 최근 게시물을 가져오기 (feign client로)
-            PostIdListDto postIdListDto =  postServiceUserClient.getCreateDateAndIdById(followeeId);
-            // 2. 카프카로 userId + postIdList를 newsfeed에 전달
-            kafkaTemplate.send("add-follow-topic", new PostIdListOfUserDto(postIdListDto, userId));
-            // TODO  userId , createDateAndId  전달
+            // 1. followeeId의 최근 게시물의 createDateAndId 가져오기 (feign client로)
+            PostCreateDateAndIdListDto postCreateDateAndIdListDto =  postServiceUserClient.getCreateDateAndIdById(followeeId);
+            // 2. 카프카로 userId + PostCreateDateAndIdList를 newsfeed에 전달
+
+            log.info(postCreateDateAndIdListDto.getPostCreateDateAndIdList().toString());
+            kafkaTemplate.send("add-follow-topic", new PostIdListOfUserDto(postCreateDateAndIdListDto, userId));
 
 
         }else{

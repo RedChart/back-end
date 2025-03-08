@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor @Getter
 public class PostEventDto {
     private String type;
-    private Long postId;
-    private LocalDateTime createDate;;
+    private String postCreateDateAndId;
     private Long postWriterId;
 }

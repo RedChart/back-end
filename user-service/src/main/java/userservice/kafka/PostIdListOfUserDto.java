@@ -1,14 +1,15 @@
 package userservice.kafka;
 
-import userservice.feign.dto.PostIdListDto;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import userservice.feign.PostCreateDateAndIdListDto;
 
-
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
 public class PostIdListOfUserDto{
-    private PostIdListDto postIdListDto;
+    private PostCreateDateAndIdListDto postCreateDateAndIdListDto;
     private Long userId;
-    public PostIdListOfUserDto(PostIdListDto postIdListDto, Long userId) {
-        this.postIdListDto = postIdListDto;
-        this.userId = userId;
-    }
 
 }

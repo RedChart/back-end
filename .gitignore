@@ -35,3 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+## 테스트 툴
+tar -zxvf async-profiler-2.9-linux-x64.tar.gz

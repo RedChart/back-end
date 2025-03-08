@@ -37,7 +37,7 @@ public class Post extends BaseTimeEntity{
 
         @PostPersist
         private void setRedisKey() {
-                this.createDateAndId = id + ":" +  (getCreateDate() != null ? getCreateDate().toString() : "default")  ;
+                this.createDateAndId = (getCreateDate() != null ? getCreateDate().toString() : "default") + ":" + id ;
         }
         public Post updatePost(String content, String title) {
                 return this.toBuilder()

@@ -2,6 +2,7 @@ package postservice.feign;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import postservice.feign.dto.PostCreateDateAndIdListDto;
 import postservice.feign.dto.PostIdListDto;
 import postservice.service.PostService;
 
@@ -13,8 +14,8 @@ public class PostServiceUserClient {
     private final PostService postService;
 
     @GetMapping("/details/{userId}")
-    public PostIdListDto getPostsById(@PathVariable Long userId){
-        return postService.getPostsById(userId);
+    public PostCreateDateAndIdListDto getPostsById(@PathVariable Long userId){
+        return postService.getPostCreateDateAndIdListById(userId);
     }
 }
 
